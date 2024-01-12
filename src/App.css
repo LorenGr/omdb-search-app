@@ -1,0 +1,36 @@
+body {
+  background-color: #acb9c0;
+}
+
+.App {
+  text-align: center;
+  margin: 10px;
+}
+
+.error-alert {
+  margin: 50% 20% 0 20%;
+
+  .ant-alert-action {
+    align-self: center;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.movies-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.movie-card {
+  display: flex;
+  justify-content: center;
+}
