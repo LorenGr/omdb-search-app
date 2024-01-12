@@ -19,7 +19,7 @@ Key Features:
 ### Installation
 To get started with the project, first clone the repository and install the dependencies:
 ```bash
-git clone [repository URL]
+git clone https://github.com/LorenGr/omdb-search-app
 cd raketech-challenge
 npm install
 ```
