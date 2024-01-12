@@ -24,4 +24,9 @@ describe('MovieCard', () => {
         fireEvent.error(image);
         expect(image).toHaveAttribute('src', 'default.jpg');
     });
+
+    it('renders and matches snapshot', () => {
+        const { asFragment } = render(<MovieCard />);
+        expect(asFragment()).toMatchSnapshot();
+    });
 });

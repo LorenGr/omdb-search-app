@@ -21,4 +21,9 @@ describe('SearchComponent', () => {
         fireEvent.click(screen.getByText('Search'));
         expect(mockOnSearch).toHaveBeenCalledWith('Inception', '', '2010');
     });
+
+    it('renders and matches snapshot', () => {
+        const { asFragment } = render(<SearchComponent />);
+        expect(asFragment()).toMatchSnapshot();
+    });
 });

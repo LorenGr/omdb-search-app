@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MovieCard renders and matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-card ant-card-bordered ant-card-hoverable css-dev-only-do-not-override-dkbvqv"
+    style="width: 240px;"
+  >
+    <div
+      class="ant-card-cover"
+    >
+      <img />
+    </div>
+    <div
+      class="ant-card-body"
+    >
+      <div
+        class="ant-card-meta"
+      />
+      <div
+        style="margin-top: 10px;"
+      >
+        <span
+          class="ant-tag ant-tag-blue css-dev-only-do-not-override-dkbvqv"
+        />
+        <span
+          class="ant-tag ant-tag-green css-dev-only-do-not-override-dkbvqv"
+        />
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
