@@ -16,7 +16,7 @@ const SearchComponent = ({ onSearch }) => {
     };
 
     useEffect(() => {
-        type != '' && handleSubmit();
+        type !== '' && handleSubmit();
     }, [type]);
 
     const handleKeyPress = (e) => {

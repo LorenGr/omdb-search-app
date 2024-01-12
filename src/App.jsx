@@ -4,9 +4,7 @@ import SearchComponent from './components/SearchComponent/SearchComponent';
 import MovieCard from './components/MovieCard/MovieCard';
 import { Spin, Result, Button, Alert } from 'antd';
 import './App.css';
-
-const API_KEY = '6c5d7d44';
-const API_BASEURL = "http://www.omdbapi.com";
+import { fetchApi } from './services/fetchapi';
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
@@ -32,59 +30,70 @@ function App() {
       setSearchResults(JSON.parse(cachedData));
       setIsLoading(false);
     } else {
-      try {
-        const response = await fetch(`${API_BASEURL}/?s=${encodeURIComponent(title)}&type=${type}&y=${year}&apikey=${API_KEY}`);
-        const data = await response.json();
-        if (data.Response === "True") {
-          localStorage.setItem(cacheKey, JSON.stringify(data.Search));
-          setSearchResults(data.Search);
-        } else {
-          setSearchResults([]);
-        }
-      } catch (error) {
+
+      const onSuccess = (data) => {
+        localStorage.setItem(cacheKey, JSON.stringify(data.Search));
+        setSearchResults(data.Search);
+        setIsLoading(false);
+      }
+
+      const onError = (error) => {
         setError('Error fetching data:', error);
+        setIsLoading(false);
         setSearchResults([]);
       }
-      setIsLoading(false);
+
+      const onFail = () => {
+        setSearchResults([]);
+        setIsLoading(false);
+      }
+
+      fetchApi({
+        type, year, title,
+        onSuccess,
+        onFail,
+        onError
+      });
     }
   };
+
+  const errorAlert = <Alert
+    className="error-alert"
+    message="Error"
+    description={error}
+    type="error"
+    action={
+      <Button size="small" type="primary" onClick={handleRetry}>
+        Retry
+      </Button>
+    }
+    closable
+  />
+
+  const loading = <div className="spinner-container">
+    <Spin size="large" />
+  </div>;
+
+  const movies = <div className="movies-container">
+    {searchResults.map((movie, key) => (
+      <div key={key} className="movie-card">
+        <MovieCard key={movie.imdbID} type={movie.Type} year={movie.Year} title={movie.Title} image={movie.Poster} />
+      </div>
+    ))}
+  </div>;
+
+  const noResults = <Result
+    title="No Results found!"
+  />;
 
   return (
     <div className="App">
       <div className={firstLoad ? 'centered' : ''}>
         <SearchComponent onSearch={handleSearch} />
       </div>
-      {!searchResults.length && !firstLoad && <Result
-        title="No Results found!"
-      />}
-
-      {error && (
-        <Alert
-          className="error-alert"
-          message="Error"
-          description={error}
-          type="error"
-          action={
-            <Button size="small" type="primary" onClick={handleRetry}>
-              Retry
-            </Button>
-          }
-          closable
-        />
-      )}
-      {isLoading ? (
-        <div className="spinner-container">
-          <Spin size="large" />
-        </div>
-      ) : (
-        <div className="movies-container">
-          {searchResults.map((movie, key) => (
-            <div key={key} className="movie-card">
-              <MovieCard key={movie.imdbID} type={movie.Type} year={movie.Year} title={movie.Title} image={movie.Poster} />
-            </div>
-          ))}
-        </div>
-      )}
+      {!searchResults.length && !isLoading && !firstLoad && noResults}
+      {error && errorAlert}
+      {isLoading ? loading : movies}
     </div>
   );
 }
