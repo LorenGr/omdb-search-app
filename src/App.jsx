@@ -31,32 +31,33 @@ function App() {
     if (cachedData) {
       setSearchResults(JSON.parse(cachedData));
       setIsLoading(false);
-    } else {
-
-      const onSuccess = (data) => {
-        localStorage.setItem(cacheKey, JSON.stringify(data.Search));
-        setSearchResults(data.Search);
-        setIsLoading(false);
-      }
-
-      const onError = (error) => {
-        setError('Error fetching data:', error);
-        setIsLoading(false);
-        setSearchResults([]);
-      }
-
-      const onFail = () => {
-        setSearchResults([]);
-        setIsLoading(false);
-      }
-
-      fetchApi({
-        type, year, title,
-        onSuccess,
-        onFail,
-        onError
-      });
+      return;
     }
+
+    const onSuccess = (data) => {
+      localStorage.setItem(cacheKey, JSON.stringify(data.Search));
+      setSearchResults(data.Search);
+      setIsLoading(false);
+    }
+
+    const onError = (error) => {
+      setError('Error fetching data:', error);
+      setIsLoading(false);
+      setSearchResults([]);
+    }
+
+    const onFail = () => {
+      setSearchResults([]);
+      setIsLoading(false);
+    }
+
+    fetchApi({
+      type, year, title,
+      onSuccess,
+      onFail,
+      onError
+    });
+
   };
 
   return (
