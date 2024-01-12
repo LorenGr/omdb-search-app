@@ -1,4 +1,3 @@
-// src/components/MovieCard.js
 import React, { useState } from 'react';
 import { Card, Tag } from 'antd';
 import defaultImage from '../../assets/default.jpg';

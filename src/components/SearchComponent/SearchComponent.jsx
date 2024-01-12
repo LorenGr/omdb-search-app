@@ -1,4 +1,3 @@
-// src/components/SearchComponent.js
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Select, Row, Col } from 'antd';
 import "./SearchComponent.css";
