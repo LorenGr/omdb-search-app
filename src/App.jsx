@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import SearchComponent from './components/SearchComponent/SearchComponent';
 import MovieCard from './components/MovieCard/MovieCard';
-import { Spin, Button, Alert } from 'antd';
+import { Spin, Result, Button, Alert } from 'antd';
 import './App.css';
 
 const API_KEY = '6c5d7d44';
@@ -13,6 +13,7 @@ function App() {
   const [lastSearchParams, setLastSearchParams] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
 
   const handleRetry = () => {
     handleSearch(lastSearchParams.title, lastSearchParams.type, lastSearchParams.year);
@@ -22,6 +23,7 @@ function App() {
     setLastSearchParams({
       title, type, year
     });
+    setFirstLoad(false);
     setIsLoading(true);
     const cacheKey = `movies-${title}-${type}-${year}`;
     const cachedData = localStorage.getItem(cacheKey);
@@ -49,7 +51,13 @@ function App() {
 
   return (
     <div className="App">
-      <SearchComponent onSearch={handleSearch} />
+      <div className={firstLoad ? 'centered' : ''}>
+        <SearchComponent onSearch={handleSearch} />
+      </div>
+      {!searchResults.length && !firstLoad && <Result
+        title="No Results found!"
+      />}
+
       {error && (
         <Alert
           className="error-alert"

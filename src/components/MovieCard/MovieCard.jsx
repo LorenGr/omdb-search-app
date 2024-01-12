@@ -25,7 +25,6 @@ const MovieCard = ({ title, type, year, image }) => {
             </div>
         </Card>
     );
-
 };
 
 export default MovieCard;

@@ -11,7 +11,6 @@ describe('MovieCard', () => {
 
     it('renders correctly with given props', () => {
         render(<MovieCard title={mockTitle} image={mockImage} type={mockType} year={mockYear} />);
-
         expect(screen.getByText(mockTitle)).toBeInTheDocument();
         expect(screen.getByAltText(mockTitle)).toHaveAttribute('src', mockImage);
         expect(screen.getByText(mockType)).toBeInTheDocument();

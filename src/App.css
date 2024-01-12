@@ -30,6 +30,10 @@ body {
   justify-content: center;
 }
 
+.centered {
+  margin: 50vh 50px 0 50px;
+}
+
 .movie-card {
   display: flex;
   justify-content: center;

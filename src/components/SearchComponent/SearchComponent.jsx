@@ -16,8 +16,14 @@ const SearchComponent = ({ onSearch }) => {
     };
 
     useEffect(() => {
-        handleSubmit();
+        type != '' && handleSubmit();
     }, [type]);
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleSubmit();
+        }
+    };
 
     return (
         <Row gutter={16} style={{ display: 'flex', alignItems: 'center' }}>
@@ -26,6 +32,7 @@ const SearchComponent = ({ onSearch }) => {
                     placeholder="Title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    onKeyPress={handleKeyPress}
                 />
             </Col>
             <Col flex={1}>
@@ -33,6 +40,7 @@ const SearchComponent = ({ onSearch }) => {
                     placeholder="Year"
                     value={year}
                     onChange={(e) => setYear(e.target.value)}
+                    onKeyPress={handleKeyPress}
                 />
             </Col>
             <Col flex={1}>
@@ -47,7 +55,7 @@ const SearchComponent = ({ onSearch }) => {
                 </Select>
             </Col>
             <Col>
-                <Button data-testid="search-button" onClick={handleSubmit} type="primary">Search</Button>
+                <Button role="button" onClick={handleSubmit} type="primary">Search</Button>
             </Col>
         </Row>
     );
