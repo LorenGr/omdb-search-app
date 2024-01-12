@@ -1,10 +1,12 @@
 // src/App.js
 import React, { useState } from 'react';
 import SearchComponent from './components/SearchComponent/SearchComponent';
-import MovieCard from './components/MovieCard/MovieCard';
-import { Spin, Result, Button, Alert } from 'antd';
 import './App.css';
 import { fetchApi } from './services/fetchapi';
+import MoviesList from './components/MoviesList/MoviesList';
+import Loader from './components/Loader/Loader';
+import ErrorAlert from './components/ErrorAlert/ErrorAlert';
+import NoResults from './components/NoResults/NoResults';
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
@@ -57,43 +59,14 @@ function App() {
     }
   };
 
-  const errorAlert = <Alert
-    className="error-alert"
-    message="Error"
-    description={error}
-    type="error"
-    action={
-      <Button size="small" type="primary" onClick={handleRetry}>
-        Retry
-      </Button>
-    }
-    closable
-  />
-
-  const loading = <div className="spinner-container">
-    <Spin size="large" />
-  </div>;
-
-  const movies = <div className="movies-container">
-    {searchResults.map((movie, key) => (
-      <div key={key} className="movie-card">
-        <MovieCard key={movie.imdbID} type={movie.Type} year={movie.Year} title={movie.Title} image={movie.Poster} />
-      </div>
-    ))}
-  </div>;
-
-  const noResults = <Result
-    title="No Results found!"
-  />;
-
   return (
     <div className="App">
       <div className={firstLoad ? 'centered' : ''}>
         <SearchComponent onSearch={handleSearch} />
       </div>
-      {!searchResults.length && !isLoading && !firstLoad && noResults}
-      {error && errorAlert}
-      {isLoading ? loading : movies}
+      {!searchResults.length && !isLoading && !firstLoad && <NoResults />}
+      {error && <ErrorAlert error={error} handleRetry={handleRetry} />}
+      {isLoading ? <Loader /> : <MoviesList movies={searchResults} />}
     </div>
   );
 }
